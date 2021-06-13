@@ -1,7 +1,7 @@
 import xarray as xr
 import numpy as np
 import sys
-
+import os
 
 
 def check_cell(temp_rho_dzt, tend_ra, tend_mean, oheat):
