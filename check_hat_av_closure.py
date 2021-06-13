@@ -30,7 +30,7 @@ if __name__ == "__main__":
     osnap = xr.open_dataset(os.path.join(path, "ocean_snap.nc"))
 
 
-    check_cell(get_cell_in_time(ocean.temp_rhodzt, 0, 100, 100),
-                get_cell_in_time(ora.temp_tendency, 0, 100, 100),
-                get_cell_in_time(oheat.temp_rhodzt, 0, 100, 100),
+    check_cell(get_cell_in_time(ocean.temp_rhodzt, 100, 100, 0),
+                get_cell_in_time(ora.temp_tendency, 100, 100, 0),
+                get_cell_in_time(oheat.temp_rhodzt, 100, 100, 0),
                 oheat)
