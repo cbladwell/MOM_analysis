@@ -6,7 +6,7 @@ import os
 
 def check_cell(temp_rho_dzt, tend_ra, tend_mean, oheat):
     print("  ti  |    ris av    |    mnth av    |   err")
-    for t in range(len(DT)-1):
+    for t in range(len(oheat.time.values)-1):
         dt = oheat.average_DT[t].values*24*60*60
         av_heat_ra = tend_mean.values[t]*dt+tend_ra.values[t+1]-tend_ra.values[t]
         av_heat_rhodz = (temp_rho_dzt.values[t+1]-temp_rho_dzt.values[t])*Cp
@@ -23,14 +23,14 @@ if __name__ == "__main__":
         path = sys.argv[1]
     else:
         path = ""
-    oheat = xr.open_dataset(os.path.join(path, "ocean_heat.nc"))
-    ora = xr.open_dataset(os.path.join(path, "ocean_risavg.nc"))
-    ocean = xr.open_dataset(os.path.join(path, "ocean.nc"))
-    ogrid = xr.open_dataset(os.path.join(path, "ocean_grid.nc"))
-    osnap = xr.open_dataset(os.path.join(path, "ocean_snap.nc"))
+    oheat = xr.open_dataset(os.path.join(path, "ocean_heat.nc"), decode_times=False)
+    ora = xr.open_dataset(os.path.join(path, "ocean_risavg.nc"), decode_times=False)
+    ocean = xr.open_dataset(os.path.join(path, "ocean.nc"), decode_times=False)
+    ogrid = xr.open_dataset(os.path.join(path, "ocean_grid.nc"), decode_times=False)
+    osnap = xr.open_dataset(os.path.join(path, "ocean_snap.nc"), decode_times=False)
 
 
     check_cell(get_cell_in_time(ocean.temp_rhodzt, 100, 100, 0),
                 get_cell_in_time(ora.temp_tendency, 100, 100, 0),
-                get_cell_in_time(oheat.temp_rhodzt, 100, 100, 0),
+                get_cell_in_time(oheat.temp_tendency, 100, 100, 0),
                 oheat)
