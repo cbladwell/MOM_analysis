@@ -17,6 +17,15 @@ def check_cell(temp_rho_dzt, tend_ra, tend_mean, oheat):
 def get_cell_in_time(arr, x,y,z):
     return arr[:,z,y,x]
 
+def extract_time_steps(in_file, ts):
+    with open() as f:
+        for line in f:
+            if line.startswith("! 1e time step:"):
+                lspl = line.split(",")
+                i = lspl.index("! 1e time step:")
+                if float(lspl[i]) != ts:
+                    print(line)
+
 if __name__ == "__main__":
     Cp = 3992.1032232964 # J kg-1 deg-1
     if len(sys.argv) == 2:
