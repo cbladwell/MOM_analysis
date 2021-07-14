@@ -33,6 +33,7 @@ def plot_global_av(diags):
     for _ in diags:
         _.plot()
     plt.xlabal("time")
+    print("dir: ~/temp" + vert_int_diag.name + "map")
 
 # def combine_hat_av(nc_ra, nc_name, diag_name):
 
@@ -49,3 +50,5 @@ def plot_epoch_diff_map(vert_int_diag):
 
 if __name__ == "__main__":
     data_dir = r"/scratch/e14/cb2411/access-om2/archive/1deg_jra55_iaf"
+    temp_gbl_av = global_average(data_dir, "ocean.nc", "temp_rhodzt")
+    plot_global_av(temp_gbl_av)
