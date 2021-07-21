@@ -17,14 +17,15 @@ def check_cell(temp_rho_dzt, tend_ra, tend_mean, oheat):
 def get_cell_in_time(arr, x,y,z):
     return arr[:,z,y,x]
 
-def extract_time_steps(in_file, ts):
-    with open() as f:
+def extract_time_steps(in_file, out_file, ts):
+    with open(in_file, "r") as f, open(out_file, "w") as fout:
         for line in f:
-            if line.startswith("! 1e time step:"):
-                lspl = line.split(",")
-                i = lspl.index("! 1e time step:")
-                if float(lspl[i]) != ts:
-                    print(line)
+            if "! 1e time step:" in line:
+                lspl = line.split()
+                i = lspl.index("step:")
+                if float(lspl[i+1]) != ts:
+                    fout.write(line + " -  " +  next(f))
+
 
 if __name__ == "__main__":
     Cp = 3992.1032232964 # J kg-1 deg-1
@@ -43,3 +44,7 @@ if __name__ == "__main__":
                 get_cell_in_time(ora.temp_tendency, 100, 100, 0),
                 get_cell_in_time(oheat.temp_tendency, 100, 100, 0),
                 oheat)
+    filename = (path.split("/")[-2]).split(".")[0]
+    path = "/" + os.path.join(*path.split("/")[:-1], "access-om2.out")
+    extract_time_steps(path, os.path.join("/home/561/cb2411/tmp/", filename + "_ts_chk.txt"), 5400.0)
+    print(os.path.join("/home/561/tmp/", filename + "_ts_chk.txt"))
