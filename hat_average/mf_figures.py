@@ -46,6 +46,23 @@ def get_land_mask(basin_mask_nc):
     bsn_msk = xr.open_dataset(basin_mask_nc)
     return np.where(np.isnan(bsn_msk.BASIN_MASK.values[0,:,:]), np.nan, 1)
 
+def compute_std_av(std_av_da, average_output_lengths):
+  return std_av_da*average_output_lengths/average_output_lengths.sum(dim="time").values()
+
+
+def combined_hat_average(ra_av_da, std_av_da, init_t, dt, combine_periods, average_output_lengths):
+  """"Combine multiple rising average periods.
+  test for computing the simple case of a single year"""
+  quotient, remainder = divmod(len(ra_av_da["time"].values), combine_periods)
+  if remainder != 0:
+    print("Error: number of number of averages no multiple of combine periods")
+    return -1
+  std_av_total_da = compute_std_av(std_av_da, average_output_lengths)
+  tn0 = init_t + average_output_lengths*(24*60*60)
+  ra_time_wght_total_av_da = (ra_av_da + tn0*std_av_da)/combine_periods - std_av_total_da
+
+  return ra_time_wght_total_av_da
+
 
 if __name__ == "__main__":
 
