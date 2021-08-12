@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 figures/*
 diag_table
+=======
+*.png
+__pycache__/*
+.vscode/*
+>>>>>>> c7f5470c87227c4fb0b59ab80d2e7da767a20a11
