@@ -6,7 +6,7 @@ setup(
   author='Chris Bladwell',
   author_email='c.bladwell@unsw.edu.au',
   packages=['hat_average'],
-  scripts=['bin/script1','bin/script2'],
+  scripts=['hat_average/mf_figures'],
   url='',
   license='',
   description='tools to analyse MOM code for time averaging and tracer analysis',
